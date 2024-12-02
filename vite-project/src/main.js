@@ -91,18 +91,28 @@ export const filtrarCochesPorAño = async () => {
     const response = await fetch(url, options);
     const cochesArray = await response.json();
 
+    // Transformar los datos crudos en instancias de la clase `Car`
+    const cochesInstancias = cochesArray.map((cocheData) => {
+      const coche = new Car(cocheData.id, cocheData.make);
+      coche.setModel(cocheData.model);
+      coche.setYear(cocheData.year);
+      coche.setType(cocheData.type);
+      return coche;
+    });
+
     const añoSeleccionado = document.getElementById("selectYear").value;
     const marcaSeleccionada = document.getElementById("selectMake").value;
 
-    const cochesFiltrados = cochesArray
+    const cochesFiltrados = cochesInstancias
       .filter(
         (coche) =>
-          añoSeleccionado === "all" || coche.year == Number(añoSeleccionado)
+          añoSeleccionado === "all" ||
+          coche.getYear() == Number(añoSeleccionado)
       )
       .filter(
         (coche) =>
           marcaSeleccionada === "all" ||
-          coche.make.toLowerCase() === marcaSeleccionada.toLowerCase()
+          coche.getMake().toLowerCase() === marcaSeleccionada.toLowerCase()
       );
 
     if (cochesFiltrados.length > 0) {
