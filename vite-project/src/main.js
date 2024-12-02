@@ -127,6 +127,8 @@ export const filtrarCochesPorAño = async () => {
   }
 };
 
+//dasda
+
 async function crearDivContenido() {
   const existingContent = document.querySelector(".container");
   if (existingContent) {
